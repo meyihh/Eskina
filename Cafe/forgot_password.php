@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <title>Forgot Password</title>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <style>
-        * {
+    * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -79,55 +79,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     html, body {
       height: 100%;
-      overflow: hidden;
       background: #5c3d2e;
-    }
-
-    .fade-container {
-      opacity: 0;
-      animation: fadeIn 1s ease-out forwards;
-    }
-
-    .fade-out {
-      animation: fadeOut 0.8s ease-in forwards;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    @keyframes fadeOut {
-      from { opacity: 1; }
-      to   { opacity: 0; }
+      overflow-x: hidden;
     }
 
     .container {
-      display: flex;
-      height: 100vh;
-    }
+  display: flex;
+  height: 100vh;
+}
 
-    .left, .right {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-    }
+.left,
+.right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
 
-    .left {
-      background: #ffffff;
-      flex-direction: column;
-      text-align: center;
-    }
+.left {
+  background: #fff;
+  flex-direction: column;
+  text-align: center;
+}
 
-    .left img {
-      max-width: 100%;
-      height: auto;
-      max-height: 80%;
-      object-fit: contain;
-      opacity: 0.7;
-    }
+.left img {
+  max-width: 100%;
+  max-height: 80%;
+  object-fit: contain;
+  opacity: 0.85;
+}
 
     .right {
       background: #5c3d2e;
@@ -151,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     .form-box h2 {
       margin-bottom: 20px;
+      font-size: 24px;
       color: white;
     }
 
@@ -169,13 +151,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       font-size: 15px;
     }
 
-    input::placeholder {
-      color: #888;
-    }
-
     button.submit-btn {
       padding: 12px;
-      background-color: #ffffff;
+      background-color: #fff;
       color: #5c3d2e;
       border: none;
       border-radius: 6px;
@@ -202,22 +180,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       cursor: pointer;
     }
 
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-      }
-
-      .left, .right {
-        flex: none;
-        height: 50%;
-        padding: 20px;
-      }
-
-      .form-wrapper {
-        padding: 25px 20px;
-      }
-    }
-
     .error-message {
       color: #ffbdbd;
       background: rgba(255, 0, 0, 0.1);
@@ -226,27 +188,88 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       border-radius: 6px;
       font-size: 14px;
     }
+
+    /* 📱 Mobile Responsive */
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        height: auto;
+      }
+
+      .left, .right {
+        flex: none;
+        width: 100%;
+        padding: 20px;
+      }
+
+      .left {
+        padding: 30px 15px;
+      }
+
+      .left img {
+        max-width: 180px;
+        max-height: 180px;
+      }
+
+      .right {
+        padding: 30px 15px;
+      }
+
+      .form-wrapper {
+        width: 100%;
+        max-width: 100%;
+        padding: 20px 15px;
+      }
+
+      .form-box h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+      }
+
+      input, button.submit-btn {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .toggle-text {
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .left img {
+        max-width: 140px;
+        max-height: 140px;
+      }
+
+      .form-box h2 {
+        font-size: 18px;
+      }
+
+      input, button.submit-btn {
+        font-size: 13px;
+        padding: 9px;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="fade-container">
-    <div class="container">
-      <div class="left">
-        <img src="eslogo.jpg" alt="Eskina Coffee Logo" />
-      </div>
-      <div class="right">
-        <div class="form-wrapper">
-          <div class="form-box">
-            <h2>Forgot Password</h2>
-            <?php if ($message): ?>
-              <div class="error-message"><?php echo $message; ?></div>
-            <?php endif; ?>
-            <form action="forgot_password.php" method="POST">
-              <input type="email" name="email" placeholder="Enter your email" required>
-              <button type="submit" class="submit-btn">Send OTP</button>
-            </form>
-            <p class="toggle-text"><a href="landing.php">Back to Login</a></p>
-          </div>
+  <div class="container">
+    <div class="left">
+      <img src="eslogo.jpg" alt="Eskina Coffee Logo" />
+    </div>
+    <div class="right">
+      <div class="form-wrapper">
+        <div class="form-box">
+          <h2>Forgot Password</h2>
+          <?php if ($message): ?>
+            <div class="error-message"><?php echo $message; ?></div>
+          <?php endif; ?>
+          <form action="forgot_password.php" method="POST">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <button type="submit" class="submit-btn">Send OTP</button>
+          </form>
+          <p class="toggle-text"><a href="landing.php">Back to Login</a></p>
         </div>
       </div>
     </div>

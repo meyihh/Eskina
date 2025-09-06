@@ -32,7 +32,9 @@ $sql = "SELECT oi.id, oi.order_id, oi.product_name, oi.quantity, oi.price, oi.st
         FROM order_items oi
         JOIN orders o ON oi.order_id = o.id
         WHERE DATE(o.created_at) = ?
-        ORDER BY oi.created_at DESC";
+        ORDER BY 
+            CASE WHEN oi.status = 'DONE' THEN 1 ELSE 0 END, 
+            oi.created_at DESC";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $today);

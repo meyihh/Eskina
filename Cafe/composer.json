@@ -1,0 +1,14 @@
+{
+    "name": "eskina-coffee/app",
+    "description": "Eskina Coffee registration with PHPMailer OTP",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "EskinaCoffee\\": "src/"
+        }
+    }
+}
+    

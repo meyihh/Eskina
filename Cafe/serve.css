@@ -1,6 +1,4 @@
-/* ===================== */
-/* Reset / Base Styles */
-/* ===================== */
+/* Reset / Base */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -9,7 +7,7 @@
 }
 
 body {
-  background: #F8F4E1;
+  background: #c4b397;
   color: #3a2d1f;
 }
 
@@ -18,16 +16,14 @@ a {
   color: inherit;
 }
 
-/* ===================== */
 /* Navbar */
-/* ===================== */
 .navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 12px 24px;
-  background: #74512D;
-  border-bottom: 2px solid #543310;
+  background: #442c14;
+  border-bottom: 2px solid #0d0d0c;
   position: sticky;
   top: 0;
   z-index: 10;

@@ -139,24 +139,23 @@ $loggedInStaff = isset($_SESSION['username']) ? $_SESSION['username'] : 'STAFF N
 <div id="orderModal" class="order-modal hidden">
   <div class="order-modal-content">
     <span class="close-btn" onclick="closeOrderModal()">&times;</span>
-    <h2 class="modal-title">Order Summary</h2>
+    <h2 class="modal-title">🧾 Order Summary</h2>
 
+    <!-- Items -->
     <div id="orderItems" class="order-items-list"></div>
 
     <!-- Dining Option -->
     <div class="dining-option">
       <label for="diningType">Order Type:</label>
-       <select id="diningType">
-      <option value="DINE_IN">Dine In</option>
-      <option value="TAKE_OUT">Take Out</option>
-      <option value="ONLINE">Online</option>
-    </select>
-
-
-
+      <select id="diningType">
+        <option value="DINE_IN">Dine In</option>
+        <option value="TAKE_OUT">Take Out</option>
+        <option value="ONLINE">Online</option>
+      </select>
     </div>
 
-     <div class="customer-name">
+    <!-- Customer Name -->
+    <div class="customer-name">
       <label for="customerName">Customer Name:</label>
       <input type="text" id="customerName" placeholder="Enter Customer Name">
     </div>
@@ -166,36 +165,35 @@ $loggedInStaff = isset($_SESSION['username']) ? $_SESSION['username'] : 'STAFF N
       <label for="paymentMethod">Payment Method:</label>
       <select id="paymentMethod">
         <option value="CASH">Cash</option>
-        <option value="GCASH">GCASH</option>
+        <option value="GCASH">GCash</option>
       </select>
     </div>
-  <!-- Points -->
-<div class="points-option">
-  <label for="points">Points:</label>
-  <select id="points" disabled>
-    <option value="0">None</option>
-    <option value="1">1 for ₱250</option>
-    <option value="2">2 for ₱500</option>
-    <option value="3">3 for ₱750</option>
-    <option value="4">4 for ₱1000</option>
-    <option value="5">5 for ₱1250</option>
-    <option value="6">6 for ₱1500</option>
-    <option value="7">7 for ₱1750</option>
-    <option value="8">8 for ₱2000</option>
-    <option value="9">9 for ₱2250</option>
-    <option value="10">10 for ₱2500</option>
-    <option value="20">20 for ₱5000</option>
-    <option value="40">40 for ₱10000</option>
-  </select>
-</div>
 
-    <script>
-  document.getElementById("points").addEventListener("mousedown", e => e.preventDefault()); 
-</script>
+    <!-- Points -->
+    <div class="points-option">
+      <label for="points">Points:</label>
+      <select id="points" disabled>
+        <option value="0">None</option>
+        <option value="1">1 for ₱250</option>
+        <option value="2">2 for ₱500</option>
+        <option value="3">3 for ₱750</option>
+        <option value="4">4 for ₱1000</option>
+        <option value="5">5 for ₱1250</option>
+        <option value="6">6 for ₱1500</option>
+        <option value="7">7 for ₱1750</option>
+        <option value="8">8 for ₱2000</option>
+        <option value="9">9 for ₱2250</option>
+        <option value="10">10 for ₱2500</option>
+        <option value="20">20 for ₱5000</option>
+        <option value="40">40 for ₱10000</option>
+      </select>
+    </div>
 
+    <!-- Total -->
     <div class="total-price">Total: <span id="totalAmount">₱0.00</span></div>
 
-    <button class="confirm-btn" onclick="confirmOrder()">Confirm Order</button>
+    <!-- Confirm -->
+    <button class="confirm-btn" onclick="confirmOrder()">Confirm Order ✅</button>
   </div>
 </div>
 
@@ -552,82 +550,106 @@ document.getElementById('searchBtn').addEventListener('click', () => {
 
 let selectedIndexes = [];
 
+// Open modal & render cart
 function openOrderModal() {
-  const modal = document.getElementById('orderModal');
-  const orderItems = document.getElementById('orderItems');
-  const totalAmountEl = document.getElementById('totalAmount');
-  const orderType = document.getElementById("diningType").value;
-const pointsSelect = document.getElementById("points");
-document.getElementById("diningType").addEventListener("change", () => {
-  const total = parseFloat(document.getElementById("totalAmount").textContent.replace(/[₱,]/g, '')) || 0;
-  const orderType = document.getElementById("diningType").value;
+  const modal = document.getElementById("orderModal");
+  const orderItems = document.getElementById("orderItems");
+  const totalAmountEl = document.getElementById("totalAmount");
   const pointsSelect = document.getElementById("points");
 
-  if (pointsSelect) {
-    const points = calculatePoints(Math.round(total), orderType);
-    pointsSelect.value = String(points);
-  }
-});
-
-
-  orderItems.innerHTML = '';
+  orderItems.innerHTML = "";
   selectedIndexes = [];
   let total = 0;
 
   // Render items
   cart.forEach((item, index) => {
-    const price = parseFloat(item.price.replace('₱', ''));
+    const price = parseFloat(item.price.replace(/[₱,]/g, "")) || 0;
     const itemTotal = price * item.quantity;
     total += itemTotal;
 
-    const div = document.createElement('div');
-    div.className = 'order-item';
+    const div = document.createElement("div");
+    div.className = "order-item";
     div.dataset.index = index;
 
     div.innerHTML = `
-      <span class="order-name">${item.quantity}x ${item.name}${item.size ? ` (${item.size}, ${item.temp})` : ''}</span>
-      <span class="order-price">₱${itemTotal.toFixed(2)}</span>
+      <div class="item-left">
+        <span class="name">${item.name}</span>
+        <div class="qty-controls">
+          <button class="qty-btn minus">−</button>
+          <span class="qty">${item.quantity}</span>
+          <button class="qty-btn plus">+</button>
+        </div>
+      </div>
+      <div class="item-right">
+        <span class="price">₱${itemTotal.toFixed(2)}</span>
+        <button class="remove-x">&times;</button>
+      </div>
     `;
 
-    // Click to toggle selection
-    div.addEventListener('click', () => {
-      if (selectedIndexes.includes(index)) {
-        selectedIndexes = selectedIndexes.filter(i => i !== index);
-        div.classList.remove('selected');
+    // ➖ Decrease qty
+    div.querySelector(".minus").addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (cart[index].quantity > 1) {
+        cart[index].quantity--;
       } else {
-        selectedIndexes.push(index);
-        div.classList.add('selected');
+        cart.splice(index, 1); // remove if 0
       }
+      saveCartToLocalStorage();
+      updateCheckoutBadge(getTotalCartQuantity());
+      openOrderModal(); // refresh modal
+    });
+
+    // ➕ Increase qty
+    div.querySelector(".plus").addEventListener("click", (e) => {
+      e.stopPropagation();
+      cart[index].quantity++;
+      saveCartToLocalStorage();
+      updateCheckoutBadge(getTotalCartQuantity());
+      openOrderModal();
+    });
+
+    // ❌ Remove item
+    div.querySelector(".remove-x").addEventListener("click", (e) => {
+      e.stopPropagation();
+      cart.splice(index, 1);
+      saveCartToLocalStorage();
+      updateCheckoutBadge(getTotalCartQuantity());
+      openOrderModal();
     });
 
     orderItems.appendChild(div);
   });
 
-  // Remove selected button
-  const removeBtn = document.createElement('button');
-  removeBtn.className = 'remove-btn';
-  removeBtn.textContent = '× Remove Selected';
-  removeBtn.addEventListener('click', () => {
-    if (selectedIndexes.length === 0) {
-      alert('No items selected.');
-      return;
-    }
-    selectedIndexes.sort((a, b) => b - a).forEach(i => cart.splice(i, 1));
-    saveCartToLocalStorage();
-    updateCheckoutBadge(getTotalCartQuantity());
-    openOrderModal(); // Refresh modal
-  });
-  orderItems.appendChild(removeBtn);
-
   // Update total
   totalAmountEl.textContent = `₱${total.toFixed(2)}`;
 
-  // 🔑 Fix 1: Convert to integer before checking
-  const roundedTotal = Math.round(total);
+  // Update points (only ONLINE orders earn)
+  const orderType = document.getElementById("diningType").value;
+  const points = calculatePoints(Math.round(total), orderType);
+  if (pointsSelect) pointsSelect.value = String(points);
 
-  function calculatePoints(total, orderType) {
+  modal.classList.remove("hidden");
+}
+
+// Close modal
+function closeOrderModal() {
+  document.getElementById("orderModal").classList.add("hidden");
+}
+
+// Recalculate points on order type change
+document.getElementById("diningType").addEventListener("change", () => {
+  const total = parseFloat(
+    document.getElementById("totalAmount").textContent.replace(/[₱,]/g, "")
+  ) || 0;
+  const orderType = document.getElementById("diningType").value;
+  const pointsSelect = document.getElementById("points");
+  const points = calculatePoints(Math.round(total), orderType);
+  if (pointsSelect) pointsSelect.value = String(points);
+});
+
+// Calculate points (only ONLINE)
+function calculatePoints(total, orderType) {
   let points = 0;
-
   if (orderType === "ONLINE") {
     if (total >= 250 && total < 500) points = 1;
     else if (total >= 500 && total < 750) points = 2;
@@ -642,26 +664,10 @@ document.getElementById("diningType").addEventListener("change", () => {
     else if (total >= 5000 && total < 10000) points = 20;
     else if (total >= 10000) points = 40;
   }
-
   return points;
 }
 
-
-  modal.classList.remove('hidden');
-}
-
-  function closeOrderModal() {
-    document.getElementById('orderModal').classList.add('hidden');
-  }
-
-    // Prevent navigating back to cached pages after logout
-  if (window.history && window.history.pushState) {
-    window.history.pushState(null, "", window.location.href);
-    window.onpopstate = function () {
-      window.history.pushState(null, "", window.location.href);
-    };
-  }
-
+// Confirm order
 async function confirmOrder() {
   if (cart.length === 0) {
     Swal.fire("Cart is empty!", "", "warning");
@@ -678,27 +684,27 @@ async function confirmOrder() {
     return;
   }
 
-  orderType = orderType.replace('_', '-').toUpperCase();
+  orderType = orderType.replace("_", "-").toUpperCase();
 
   const payload = {
     cart,
     payment: paymentMethod,
     orderType: orderType,
     customerName: customerName,
-    points: points
+    points: points,
   };
 
   try {
     const res = await fetch("save_order.php", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
     const data = await res.json();
 
     if (data.status === "success") {
-      // ✅ Immediately print receipt (no preview, no button)
+      // Print receipt immediately
       generateReceipt(
         data.order_id,
         payload.payment,
@@ -708,15 +714,16 @@ async function confirmOrder() {
         data.orderType
       );
 
-      // ✅ Show a simple confirmation alert (no receipt preview)
       Swal.fire({
         title: "Order Saved!",
-        text: `Order #${data.order_id} — Total: ₱${parseFloat(data.total).toFixed(2)}`,
+        text: `Order #${data.order_id} — Total: ₱${parseFloat(
+          data.total
+        ).toFixed(2)}`,
         icon: "success",
-        confirmButtonColor: "#74512D"
+        confirmButtonColor: "#74512D",
       });
 
-      // Reset cart
+      // Reset
       cart = [];
       saveCartToLocalStorage();
       updateCheckoutBadge(0);
@@ -729,7 +736,6 @@ async function confirmOrder() {
     Swal.fire("Error", "Could not save order.", "error");
   }
 }
-
 
 
 </script>

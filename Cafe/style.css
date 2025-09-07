@@ -136,11 +136,6 @@ a {
   display: inline-flex;
   align-items: center;
 }
-/*                                                                */
-
-
-
-
 
 /* Layout */
 .container {
@@ -176,14 +171,13 @@ a {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: calc(100vh - 32px); /* full height minus padding/margins */
+  height: calc(90vh - 25px);
   overflow-y: auto;
   box-shadow: 0 4px 12px rgba(84,51,16,0.08);
-
   /* Fixed so it stays in place */
   position: fixed;
   top: 80px; /* distance from top of screen (adjust for navbar height) */
-  left: 0;
+  left: 10px;
   z-index: 100;
 }
 
@@ -454,192 +448,260 @@ a {
   font-weight: bold;
 }
 
-/* Modal Overlay */
+/* ========= Modal Overlay ========= */
 .order-modal {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.45);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 1100;
 }
 
 .order-modal.hidden {
   display: none;
 }
 
-/* Modal Box */
+/* ========= Modal Box ========= */
 .order-modal-content {
-  background: #F8F4E1;
-  padding: 30px 25px;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  max-width: 500px;
-  width: 90%;
+  background: #fffdfa;
+  padding: 18px 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  max-width: 420px;
+  width: 92%;
   position: relative;
-  animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.25s ease-in-out;
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  font-size: 14px;
 }
 
-/* Order Items */
+/* ========= Title ========= */
+.modal-title {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  color: #543310;
+  text-align: center;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
+}
+
+/* ========= Close Button ========= */
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  color: #543310;
+  transition: color 0.2s;
+}
+.close-btn:hover {
+  color: #d62828;
+}
+
+/* ========= Order Items List ========= */
+.order-items-list {
+  max-height: 180px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  padding: 4px;
+  background: #fff;
+  border: 1px solid #ddd;
+}
+
+/* Scrollbar Styling */
+.order-items-list::-webkit-scrollbar {
+  width: 5px;
+}
+.order-items-list::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 3px;
+}
+
+/* ========= Individual Item ========= */
 .order-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px;
-  cursor: pointer;
-}
-
-.order-item:hover {
-  background-color: #f5f5f5;
-}
-
-.order-item.selected {
-  background-color: #ffe0e0;
-  border-left: 4px solid red;
-}
-
-.dining-option, .payment-options {
-  margin: 10px 0;
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-
-}
-.dining-option label{
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #543310;
-}
-.dining-option select, .payment-options select {
-  padding: 6px;
+  background: #fdfbf7;
+  border: 1px solid #eee;
+  padding: 6px 8px;
   border-radius: 6px;
+  margin: 4px 0;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+.order-item:hover {
+  background: #f7f1e8;
+  cursor: pointer;
+}
+
+/* Item Details */
+.order-item .name {
+  font-weight: 600;
+  color: #543310;
+}
+.order-item .price {
+  font-weight: 600;
+  color: #6e4515;
+}
+
+/* ========= Qty Controls ========= */
+.qty-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto; /* pushes qty controls to the right side of item-left */
+}
+
+.qty-btn {
+  width: 24px;
+  height: 24px;
   border: 1px solid #ccc;
-  font-size: 14px;
-}
-
-/* Remove Button */
-.remove-btn {
-  margin-top: 10px;
-  background: red;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.remove-btn:hover {
-  background: darkred;
-}
-
-
-
-/* Modal Title */
-.modal-title {
-  margin-top: 0;
-  font-size: 26px;
-  color: #543310;
-  text-align: center;
-  margin-bottom: 20px;
+  border-radius: 4px;
+  background: #f9f5ef;
   font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  color: #543310;
+  transition: background 0.2s, transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.qty-btn:hover {
+  background: #eee2d2;
+}
+.qty-btn:active {
+  transform: scale(0.9);
 }
 
-/* Close Button */
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  cursor: pointer;
-  font-size: 26px;
+.qty {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 600;
   color: #543310;
+}
+
+/* ========= Remove X button ========= */
+.remove-x {
+  background: none;
+  border: none;
+  color: #b33a3a;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-left: 10px;
   transition: color 0.2s;
 }
-
-.close-btn:hover {
+.remove-x:hover {
   color: #e63946;
 }
 
-/* Order Items List */
-.order-items-list {
-  max-height: 200px;
-  overflow-y: auto;
-  margin-bottom: 15px;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  padding: 10px 0;
-}
-
-.order-item {
+/* Item layout helpers */
+.item-left {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  margin: 8px 0;
-  font-size: 16px;
-  color: #333;
+  flex: 1;
+  gap: 10px;
+}
+.item-left .name {
+  flex-shrink: 0; /* prevents product name from squishing */
 }
 
-.customer-name {
-  margin: 10px 0;
-  padding: 6px;
-  border: 1px solid red; /* test */
-  background: #fff;      /* test */
-}
-
-
-/* Payment Select */
-.payment-options {
-  margin-top: 15px;
-  font-size: 16px;
+.item-right {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-left: 10px;
 }
-
-.payment-options label {
-  margin-bottom: 5px;
-  font-weight: bold;
-  color: #543310;
-}
-
-.payment-options select {
+/* ========= Form Sections ========= */
+.dining-option,
+.customer-name,
+.payment-options,
+.points-option {
+  margin: 10px 0;
   padding: 8px;
+  background: #fff;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  border: 1px solid #aaa;
-  font-size: 15px;
 }
 
-/* Total Price */
+.dining-option label,
+.customer-name label,
+.payment-options label,
+.points-option label {
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+  color: #543310;
+  font-size: 13px;
+}
+
+.customer-name input,
+.dining-option select,
+.payment-options select,
+.points-option select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #fffdfa;
+}
+.customer-name input:focus,
+.dining-option select:focus,
+.payment-options select:focus,
+.points-option select:focus {
+  border-color: #74512D;
+  outline: none;
+}
+
+/* ========= Total Price ========= */
 .total-price {
-  margin-top: 20px;
-  font-size: 18px;
-  font-weight: bold;
+  position: sticky;
+  bottom: 0;
+  background: #fffdfa;
+  padding: 8px 6px;
+  font-size: 15px;
+  font-weight: 700;
   text-align: right;
   color: #543310;
+  border-top: 1px solid #eee;
+  margin-top: 10px;
 }
 
-/* Confirm Button */
+/* ========= Confirm Button ========= */
 .confirm-btn {
-  margin-top: 25px;
+  margin-top: 12px;
   width: 100%;
-  padding: 12px 0;
-  font-size: 16px;
-  background-color: #543310;
-  color: #F8F4E1;
+  padding: 9px 0;
+  font-size: 14px;
+  font-weight: 600;
+  background: #543310;
+  color: #fffdfa;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background 0.2s;
 }
-
 .confirm-btn:hover {
-  background-color: #6e4515;
+  background: #6e4515;
 }
 
-/* Fade in animation */
+/* ========= Animation ========= */
 @keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.9); }
+  from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }
+
 
 .add-btn {
   width: 32px;
@@ -674,7 +736,7 @@ a {
 /* Responsive */
 @media (max-width: 1100px) {
   .container { flex-direction: column; }
-  .sidebar { width: 100%; order: 2; }
+  .sidebar {order: 2; }
   .main { order: 1; }
   .top-row { flex-direction: column; }
   .products-area { flex-direction: column; }
@@ -959,162 +1021,4 @@ a {
   text-align: center;
   font-weight: bold;
 }
-
-
-/* @media (max-width: 1024px) {
- 
-  .navbar { flex-wrap: wrap; justify-content: space-between; padding: 10px 16px; }
-  .brand span { font-size: 16px; }
-
-  .container { flex-direction: column; padding: 16px; }
-  .main { margin-left: 0; }
-  .sidebar { position: relative; width: 100%; height: auto; margin-bottom: 16px; }
-
-  .search-box { min-width: unset; flex: 1; }
-  .product-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px; }
-  .product-card { padding: 10px; }
-  .product-card .image { height: 90px; }
-  .product-card .name { font-size: 13px; }
-  .price { font-size: 12px; }
-
-
-  .order-modal-content { max-width: 420px; padding: 24px 20px; }
-  .modal-title { font-size: 22px; }
-  .order-item { font-size: 15px; }
-
-
-  .payment-options { font-size: 15px; }
-  .payment-options select { font-size: 14px; padding: 7px; }
-  .total-price { font-size: 17px; }
-  .confirm-btn { font-size: 15px; padding: 11px 0; }
-
-
-  .receipt-content { width: 260px; font-size: 13px; padding: 12px; }
-  .receipt-title { font-size: 16px; }
-  .receipt-btn { font-size: 13px; padding: 6px; }
-  .toast { font-size: 13px; padding: 8px 14px; }
-}
-
-
-@media (max-width: 768px) {
-
-  .center-icons { position: static; margin: 8px 0; justify-content: center; flex: 1; }
-  .icon-btn .circle { width: 34px; height: 34px; }
-  .icon-btn .icon-img { width: 18px; height: 18px; }
-  .nav-links { width: 100%; justify-content: center; margin: 8px 0 0; gap: 12px; }
-  .nav-links a { font-size: 14px; padding: 4px 10px; }
-
-  .container { padding: 12px; gap: 12px; }
-  .sidebar { width: 100%; border-radius: 6px; padding: 12px; box-shadow: 0 2px 8px rgba(84,51,16,0.1); }
-  .sidebar .section-header { font-size: 13px; padding: 8px 12px; }
-  .sidebar .section-list li { font-size: 13px; padding: 6px 12px; }
-
-  .search-box { flex: 1; gap: 6px; }
-  .search-box input { font-size: 13px; padding: 10px 14px; padding-right: 42px; }
-  .search-box button { padding: 6px; right: 2px; }
-  .search-icon { width: 16px; height: 16px; }
-  .product-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
-  .product-card { border-radius: 8px; padding: 10px; }
-  .product-card .image { height: 80px; }
-  .product-card .name { font-size: 13px; }
-  .product-card .meta { font-size: 11px; }
-  .price { font-size: 12px; }
-
-  .floating-checkout-btn .circle { width: 52px; height: 52px; }
-  .floating-checkout-btn .icon-img { font-size: 20px; }
-  .cart-badge { font-size: 12px; padding: 1px 5px; }
-
-  .order-modal-content { max-width: 95%; padding: 20px 16px; border-radius: 12px; }
-  .modal-title { font-size: 20px; margin-bottom: 16px; }
-  .order-items-list { max-height: 180px; padding: 8px 0; }
-  .order-item { font-size: 14px; padding: 6px 4px; }
-  .dining-option select, .payment-options select { font-size: 13px; padding: 5px; }
-  .remove-btn { font-size: 13px; padding: 7px 10px; }
-  .close-btn { font-size: 22px; top: 8px; right: 12px; }
-
-  .payment-options { font-size: 14px; }
-  .payment-options label { font-size: 13px; }
-  .total-price { font-size: 16px; margin-top: 16px; }
-  .confirm-btn { font-size: 14px; padding: 10px 0; }
-
-  .receipt { padding: 12px; }
-  .receipt-content { width: 100%; max-width: 320px; font-size: 13px; padding: 12px; border: 1px dashed black; }
-  .receipt-title { font-size: 15px; }
-  .receipt-address { font-size: 11px; }
-  .receipt-btn { width: 100%; margin-top: 8px; font-size: 13px; padding: 8px 0; }
-  #toast-container { top: 12px; gap: 6px; }
-  .toast { max-width: 90%; font-size: 13px; text-align: center; word-wrap: break-word; }
-  .order-controls { gap: 4px; }
-  .qty-btn { padding: 3px 7px; font-size: 15px; }
-  .qty { min-width: 18px; font-size: 14px; }
-}
-
-
-@media (max-width: 480px) {
-
-  .navbar { padding: 8px 12px; gap: 6px; }
-  .brand .logo { width: 30px; height: 30px; }
-  .brand span { font-size: 14px; }
-  .center-icons { gap: 12px; }
-  .icon-btn .circle { width: 30px; height: 30px; }
-  .icon-btn .icon-img { width: 16px; height: 16px; }
-  .nav-links { flex-direction: column; align-items: center; gap: 8px; }
-  .nav-links a { width: 100%; text-align: center; font-size: 13px; padding: 6px 0; }
-
-
-  .container { padding: 8px; }
-  .sidebar { padding: 10px; border-radius: 4px; }
-  .sidebar .section-header { font-size: 12px; padding: 6px 10px; }
-  .sidebar .section-list li { font-size: 12px; padding: 5px 10px; }
-
-
-  .search-box { flex-direction: column; align-items: stretch; gap: 8px; }
-  .search-box input { width: 100%; font-size: 12px; padding: 9px 12px; padding-right: 38px; }
-  .search-box button { right: 6px; top: 50%; transform: translateY(-50%); }
-  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .product-card { padding: 8px; }
-  .product-card .image { height: 70px; }
-  .product-card .name { font-size: 12px; }
-  .product-card .meta { font-size: 10px; }
-  .price { font-size: 11px; }
-
-  .floating-checkout-btn { bottom: 14px; right: 14px; }
-  .floating-checkout-btn .circle { width: 48px; height: 48px; }
-  .floating-checkout-btn .icon-img { font-size: 18px; }
-  .cart-badge { font-size: 11px; top: -4px; right: -4px; }
-
-  
-  .order-modal { align-items: flex-end; }
-  .order-modal-content { width: 100%; max-width: 100%; border-radius: 12px 12px 0 0; padding: 18px 14px; margin: 0; animation: slideUp 0.3s ease-in-out; }
-  .modal-title { font-size: 18px; margin-bottom: 14px; }
-  .order-items-list { max-height: 150px; }
-  .order-item { font-size: 13px; padding: 5px; }
-  .remove-btn { font-size: 12px; padding: 6px 8px; }
-  .close-btn { font-size: 20px; top: 6px; right: 10px; }
-
-
-  .payment-options { font-size: 13px; gap: 6px; }
-  .payment-options select { font-size: 12px; padding: 5px; }
-  .total-price { font-size: 15px; }
-  .confirm-btn { font-size: 13px; padding: 9px 0; }
-  .add-btn { width: 26px; height: 26px; font-size: 15px; }
-  .badge { width: 20px; height: 20px; font-size: 10px; }
-  .card-actions { justify-content: center; gap: 4px; }
-  .floating-add-btn { width: auto; padding: 10px 14px; font-size: 12px; gap: 6px; bottom: 14px; right: 14px; }
-
-
-  .receipt-content { max-width: 100%; font-size: 12px; padding: 10px; }
-  .receipt-title { font-size: 14px; }
-  .receipt-btn { font-size: 12px; padding: 7px 0; border-radius: 6px; }
-  .toast { font-size: 12px; padding: 7px 12px; }
-  .order-controls { gap: 3px; }
-  .qty-btn { padding: 2px 6px; font-size: 14px; }
-  .qty { font-size: 13px; }
-}
-
-
-@keyframes slideUp {
-  from { transform: translateY(100%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-} */
 
